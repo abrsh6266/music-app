@@ -1,7 +1,7 @@
 const { default: mongoose } = require("mongoose");
 
 //schema
-const postSchema = new mongoose.Schema(
+const musicSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -34,8 +34,6 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-//compile schema to  model
-
-const Post = mongoose.model("Music", postSchema);
+const Post = mongoose.model("Music", musicSchema);
 
 module.exports = Post;
