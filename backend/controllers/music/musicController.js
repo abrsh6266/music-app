@@ -23,8 +23,8 @@ exports.createMusic = asyncHandler(async (req, res) => {
 
   //? send the response
   res.json({
-    status: "scuccess",
-    message: "Music Succesfully created",
+    status: "success",
+    message: "Music Successfully created",
     post,
   });
 });

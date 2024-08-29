@@ -1,12 +1,12 @@
 const http = require("http");
 const express = require("express");
-const usersRouter = require("./routes/users/usersRouter");
 const connectDB = require("./config/database");
 const {
   globalErrHandler,
   notFound,
 } = require("./middlewares/globalErrorHandler");
 const cors = require("cors");
+const musicRouter = require("./routes/music/musicRoute");
 
 //server
 const app = express();
@@ -20,6 +20,8 @@ app.use(cors());
 //db connect
 connectDB();
 
+//Routes
+app.use("/api/v1/musics", musicRouter);
 
 //not found middleware(404)
 app.use(notFound);
