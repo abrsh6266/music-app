@@ -16,10 +16,10 @@ musicRouter.post("/", upload.single("file"), createMusic);
 //* get musics
 musicRouter.get("/", getMusics);
 
-//? Update existing music entry
+//? Update a music
 musicRouter.put("/:id", upload.single("file"), updateMusic);
 
-//! Delete a music entry
+//! Delete a music
 musicRouter.delete("/:id", deleteMusic);
 
 module.exports = musicRouter;
