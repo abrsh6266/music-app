@@ -34,6 +34,6 @@ const musicSchema = new mongoose.Schema(
   }
 );
 
-const Post = mongoose.model("Music", musicSchema);
+const Music = mongoose.model("Music", musicSchema);
 
-module.exports = Post;
+module.exports = Music;
