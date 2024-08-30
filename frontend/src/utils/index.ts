@@ -3,7 +3,7 @@ export interface Music {
   title: string;
   artist: string;
   album: string;
-  genre?: string;
+  genre: string;
   file: string;
 }
 

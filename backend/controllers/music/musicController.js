@@ -30,8 +30,7 @@ exports.createMusic = asyncHandler(async (req, res) => {
 
 // get all musics
 exports.getMusics = asyncHandler(async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10;
+  const { page = 1, limit = 10, search } = req.query;
   const skip = (page - 1) * limit;
 
   let query = {};

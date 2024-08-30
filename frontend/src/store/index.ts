@@ -12,7 +12,14 @@ const store = configureStore({
     music: musicReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action paths in the serializability check
+        ignoredActions: ['music/createMusicRequest'],
+        // Ignore these field paths in the state
+        ignoredPaths: ['music.musics'],
+      },
+    }).concat(sagaMiddleware),
 });
 
 // Run the root saga
