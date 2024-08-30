@@ -12,9 +12,10 @@ cloudinary.config({
 // Instance of Cloudinary Storage for Audio Files
 const storage = new CloudinaryStorage({
   cloudinary,
-  allowedFormats: ["mp3", "wav", "ogg"],
   params: {
+    resource_type: 'auto',
     folder: "music app",
+    allowedFormats: ["mp3", "wav", "ogg"],
   },
 });
 
