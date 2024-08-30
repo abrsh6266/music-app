@@ -17,7 +17,7 @@ const musicSlice = createSlice({
   name: 'music',
   initialState,
   reducers: {
-    //getting musics  
+    // Fetching musics
     fetchMusicsRequest(state) {
       state.loading = true;
       state.error = null;
@@ -30,6 +30,20 @@ const musicSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    // Creating music
+    createMusicRequest(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    createMusicSuccess(state, action: PayloadAction<Music>) {
+      state.loading = false;
+      state.musics.push(action.payload); // Add the newly created music to the list
+    },
+    createMusicFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -37,6 +51,9 @@ export const {
   fetchMusicsRequest,
   fetchMusicsSuccess,
   fetchMusicsFailure,
+  createMusicRequest,
+  createMusicSuccess,
+  createMusicFailure,
 } = musicSlice.actions;
 
 export default musicSlice.reducer;

@@ -1,14 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
-import rootSaga from './rootSaga';
-import rootReducer from './rootReducer';
+import { configureStore } from "@reduxjs/toolkit";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "./rootSaga";
+import musicReducer from "../features/music/musicSlice";
 
 // Create the Saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
 // Configure the store with Saga middleware
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    music: musicReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
 });
