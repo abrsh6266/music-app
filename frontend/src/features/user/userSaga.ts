@@ -29,7 +29,7 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
   try {
     const response: AxiosResponse<LoginResponse> = yield call(
       axios.post,
-      "/api/login",
+      "http://localhost:4000/api/v1/users/login",
       action.payload
     );
     successMsg("User successfully logged in");
@@ -44,7 +44,7 @@ function* handleRegister(action: ReturnType<typeof registerRequest>) {
   try {
     const response: AxiosResponse<RegisterResponse> = yield call(
       axios.post,
-      "/api/register",
+      "http://localhost:4000/api/v1/users/register",
       action.payload
     );
     yield put(registerSuccess(response.data));
