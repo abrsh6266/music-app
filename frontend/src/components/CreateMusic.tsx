@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createMusicRequest } from "../features/music/musicSlice";
 import { RootState } from "../store";
+import { Button } from "./Button";
 
 const CreateMusic = () => {
   const dispatch = useDispatch();
@@ -62,9 +63,9 @@ const CreateMusic = () => {
         onChange={(e) => setFile(e.target.files?.[0] || null)}
         required
       />
-      <button type="submit" disabled={loading}>
+      <Button color="secondary" bg="primary" p={3} fontSize={2} type="submit" disabled={loading}>
         {loading ? "Creating..." : "Create Music"}
-      </button>
+      </Button>
       {error && <p>{error}</p>}
     </form>
   );

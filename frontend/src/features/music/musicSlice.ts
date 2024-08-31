@@ -33,6 +33,7 @@ const musicSlice = createSlice({
 
     // Creating music
     createMusicRequest(state,action) {
+      console.log(action)
       state.loading = true;
       state.error = null;
     },

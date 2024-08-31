@@ -17,7 +17,7 @@ function* fetchMusicsSaga(): Generator {
   try {
     const response: AxiosResponse<FetchMusicsResponse> = yield call(
       axios.get,
-      "/api/music"
+      "http://localhost:4000/api/v1/musics"
     );
     yield put(fetchMusicsSuccess(response.data.musics));
   } catch (error: any) {
