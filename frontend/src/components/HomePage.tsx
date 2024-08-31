@@ -1,4 +1,4 @@
-import CreateMusic from "./CreateMusic"
+import CreateMusic from "../pages/CreateMusic"
 
 const HomePage = () => {
   return (

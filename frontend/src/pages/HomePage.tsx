@@ -7,19 +7,23 @@ import MusicPlayer from "../components/MusicPlayerComponents/MusicPlayer";
 import { MusicPlayerContainer } from "../components/Container";
 import styled from "@emotion/styled";
 
+const Cont = styled('div')`
+    margin-left:30px;
+
+`
 // Styled component for Add Music Button
 const AddMusicButton = styled.button`
   padding: 0.5em 1em;
   margin: 1em 0;
-  background-color: ${({ theme }:any) => theme.colors.primary};
+  background-color: ${({ theme }: any) => theme.colors.primary};
   color: white;
   border: none;
-  border-radius: ${({ theme }:any) => theme.radii.medium};
+  border-radius: ${({ theme }: any) => theme.radii.medium};
   cursor: pointer;
   font-size: 1em;
 
   &:hover {
-    background-color: ${({ theme }:any) => theme.colors.secondary};
+    background-color: ${({ theme }: any) => theme.colors.secondary};
   }
 `;
 
@@ -42,8 +46,9 @@ const MusicPage: React.FC = () => {
   return (
     <MusicPlayerContainer>
       {/* Add Music Button */}
-      <AddMusicButton onClick={handleAddMusicClick}>Add Music</AddMusicButton>
-      
+      <Cont>
+        <AddMusicButton onClick={handleAddMusicClick}>Add Music</AddMusicButton>
+      </Cont>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {!loading && !error && <MusicPlayer music={musics} />}

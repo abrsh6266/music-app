@@ -28,7 +28,6 @@ function* fetchMusicsSaga(): Generator {
 // Create Music Saga
 function* createMusicSaga(action: PayloadAction<Music>): Generator {
   try {
-    // Convert payload to FormData inside the saga
     const formData = new FormData();
     formData.append("title", action.payload.title);
     formData.append("artist", action.payload.artist);

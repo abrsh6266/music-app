@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import MusicPage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
-import CreateMusic from "./components/CreateMusic";
+import CreateMusic from "./pages/CreateMusic";
 
 function App() {
   return (

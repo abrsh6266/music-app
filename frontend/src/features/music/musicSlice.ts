@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Music } from '../../utils';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Music } from "../../utils";
 
 interface MusicState {
   musics: Music[];
@@ -14,7 +14,7 @@ const initialState: MusicState = {
 };
 
 const musicSlice = createSlice({
-  name: 'music',
+  name: "music",
   initialState,
   reducers: {
     // Fetching musics
@@ -32,13 +32,14 @@ const musicSlice = createSlice({
     },
 
     // Creating music
-    createMusicRequest(state,action) {
-      console.log(action)
+    createMusicRequest(state, action) {
+      console.log(action);
       state.loading = true;
       state.error = null;
     },
     createMusicSuccess(state, action: PayloadAction<Music>) {
       state.loading = false;
+      state.error = null;
       state.musics.push(action.payload); // Add the newly created music to the list
     },
     createMusicFailure(state, action: PayloadAction<string>) {
