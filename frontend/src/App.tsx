@@ -5,18 +5,27 @@ import store from "./store";
 import MusicPage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import CreateMusic from "./pages/CreateMusic";
+import styled from "@emotion/styled";
+import GenresPage from "./pages/GenresPage";
+import GenreMusicPage from "./pages/GenreMusicPage";
 
+const Container = styled("div")`
+  margin-top: 100px;
+`;
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <div>
           <Navbar />
-          <Routes>
-            <Route element={<MusicPage />} path="/"/>
-            <Route element={<CreateMusic />} path="/add-music"/>
-
-          </Routes>
+          <Container>
+            <Routes>
+              <Route element={<MusicPage />} path="/" />
+              <Route element={<CreateMusic />} path="/add-music" />
+              <Route element={<GenresPage />} path="/genres" />
+              <Route path="/genres/:genre" element={<GenreMusicPage />} />
+            </Routes>
+          </Container>
         </div>
       </BrowserRouter>
     </Provider>

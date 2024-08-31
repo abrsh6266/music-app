@@ -35,7 +35,7 @@ const MusicPage: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchMusicsRequest());
+    dispatch(fetchMusicsRequest({ search: "" }));
   }, [dispatch]);
 
   // Navigate to Add Music page

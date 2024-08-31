@@ -18,7 +18,8 @@ const musicSlice = createSlice({
   initialState,
   reducers: {
     // Fetching musics
-    fetchMusicsRequest(state) {
+    fetchMusicsRequest(state, action: PayloadAction<{ search?: string }>) {
+      console.log(action.payload);
       state.loading = true;
       state.error = null;
     },

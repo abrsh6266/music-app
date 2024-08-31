@@ -11,16 +11,29 @@ import {
 import { AxiosResponse } from "axios";
 import { FetchMusicsResponse, Music } from "../../utils";
 import { PayloadAction } from "@reduxjs/toolkit";
+import successMsg from "../../components/Alerts/SuccessMsg";
+import errorMsg from "../../components/Alerts/ErrorMsg";
 
 // Fetch Musics Saga
-function* fetchMusicsSaga(): Generator {
+function* fetchMusicsSaga(
+  action: PayloadAction<{ search?: string }>
+): Generator {
   try {
+    // Get search query from action payload
+    const { search } = action.payload;
+
+    // Define query params
+    const params = { search };
+
     const response: AxiosResponse<FetchMusicsResponse> = yield call(
       axios.get,
-      "http://localhost:4000/api/v1/musics"
+      "http://localhost:4000/api/v1/musics",
+      { params } // Pass search query in params
     );
+
     yield put(fetchMusicsSuccess(response.data.musics));
   } catch (error: any) {
+    errorMsg(error.message);
     yield put(fetchMusicsFailure(error.message));
   }
 }
@@ -42,10 +55,10 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
       "http://localhost:4000/api/v1/musics",
       formData
     );
-    console.log(response.data)
+    successMsg("Music successfully added to your playlist");
     yield put(createMusicSuccess(response.data));
   } catch (error: any) {
-    console.log(error.response.data);
+    errorMsg(error.message);
     yield put(createMusicFailure(error.message));
   }
 }

@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Box } from "rebass";
-import {
-  FaSearch,
-  FaUserCircle,
-  FaMoon,
-  FaSun,
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaSearch, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { Link, useLocation, useNavigate, useRoutes } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchMusicsRequest } from "../features/music/musicSlice"; // Import action for fetching musics
 
 // Styled components for Navbar
 const NavbarContainer = styled(Box)`
@@ -33,15 +28,13 @@ const Logo = styled(Box)`
 `;
 
 const NavLinks = styled(Box)<{ isOpen: boolean }>`
-  /* Add isOpen prop */
   display: flex;
   align-items: center;
   gap: 2em;
 
   @media (max-width: 768px) {
-    display: ${({ isOpen }) =>
-      isOpen ? "flex" : "none"}; /* Toggle display based on isOpen state */
-    flex-direction: column; /* Stack links vertically */
+    display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+    flex-direction: column;
     position: absolute;
     top: 4em;
     right: 2em;
@@ -62,11 +55,11 @@ const NavLink = styled(Box)`
 `;
 
 const HamburgerMenu = styled(Box)`
-  display: none; /* Hide on larger screens */
+  display: none;
   cursor: pointer;
 
   @media (max-width: 768px) {
-    display: block; /* Show on smaller screens */
+    display: block;
   }
 `;
 
@@ -79,7 +72,7 @@ const SearchBar = styled(Box)`
   margin-right: 1em;
 
   @media (max-width: 768px) {
-    display: none; /* Hide search bar on smaller screens */
+    display: none;
   }
 `;
 
@@ -98,31 +91,31 @@ const UserControls = styled(Box)`
   gap: 1.5em;
 `;
 
-const ThemeToggle = styled(Box)`
-  cursor: pointer;
-  font-size: 1.2em;
-  color: ${({ theme }: any) => theme.colors.text};
-`;
-
 // Navbar Component
 const Navbar: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isNavOpen, setIsNavOpen] = useState<boolean>(false); // State for mobile nav
-
-  const toggleTheme = () => {
-    setIsDarkMode((prev) => !prev);
-    // Optional: Logic to toggle the actual theme
-  };
+  const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
+  const dispatch = useDispatch(); // Use dispatch from redux
 
   const toggleNav = () => {
     setIsNavOpen((prev) => !prev);
   };
 
+  // Effect to trigger search when searchQuery changes
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      dispatch(fetchMusicsRequest({ search: searchQuery })); // Dispatch the action with search query
+    }, 500); // 500ms debounce time
+
+    return () => clearTimeout(delayDebounceFn); // Cleanup debounce timeout
+  }, [searchQuery, dispatch]);
+
   return (
     <NavbarContainer>
       {/* Logo */}
-      <Logo>MusicPlayer</Logo>
+      <Logo>AB Musics</Logo>
 
       {/* Hamburger Menu for Mobile */}
       <HamburgerMenu onClick={toggleNav}>
@@ -148,15 +141,17 @@ const Navbar: React.FC = () => {
         <SearchInput
           placeholder="Search..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            if (location.pathname != "/") {
+              navigate("/");
+            }
+            setSearchQuery(e.target.value);
+          }}
         />
       </SearchBar>
 
       {/* User Controls */}
       <UserControls>
-        <ThemeToggle onClick={toggleTheme}>
-          {isDarkMode ? <FaSun /> : <FaMoon />}
-        </ThemeToggle>
         <FaUserCircle size="1.5em" />
       </UserControls>
     </NavbarContainer>
