@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Box } from "rebass";
 import { FaSearch, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
-import { Link, useLocation, useNavigate, useRoutes } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchMusicsRequest } from "../features/music/musicSlice"; // Import action for fetching musics
 

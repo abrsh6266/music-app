@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import rootSaga from "./rootSaga";
 import musicReducer from "../features/music/musicSlice";
-
+import userReducer from "../features/user/userSlice";
 // Create the Saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
@@ -10,14 +10,15 @@ const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
   reducer: {
     music: musicReducer,
+    user: userReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these action paths in the serializability check
-        ignoredActions: ['music/createMusicRequest'],
+        ignoredActions: ["music/createMusicRequest"],
         // Ignore these field paths in the state
-        ignoredPaths: ['music.musics'],
+        ignoredPaths: ["music.musics"],
       },
     }).concat(sagaMiddleware),
 });
