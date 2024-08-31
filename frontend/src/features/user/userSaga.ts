@@ -12,12 +12,14 @@ import successMsg from "../../components/Alerts/SuccessMsg";
 import errorMsg from "../../components/Alerts/ErrorMsg";
 
 interface LoginResponse {
+  id: string;
   email: string;
   username: string;
   token: string;
 }
 
 interface RegisterResponse {
+  id: string;
   email: string;
   username: string;
   token: string;

@@ -11,7 +11,7 @@ exports.register = asyncHandler(async (req, res) => {
   if (user) {
     throw new Error("User already exists");
   }
-  
+
   const newUser = new User({
     username,
     email,
@@ -28,7 +28,9 @@ exports.register = asyncHandler(async (req, res) => {
   res.status(201).json({
     status: "success",
     message: "User registered successfully",
-    user: { _id: newUser._id, username, email },
+    id: user._id,
+    username: user.username,
+    email: user.email,
   });
 });
 
@@ -48,11 +50,9 @@ exports.login = asyncHandler(async (req, res) => {
   res.status(200).json({
     status: "success",
     message: "Logged in successfully",
-    user: {
-      id: user._id,
-      username: user.username,
-      email,
-    },
+    id: user._id,
+    username: user.username,
+    email: user.email,
     token: generateToken(user),
   });
 });
@@ -64,7 +64,9 @@ exports.getProfile = asyncHandler(async (req, res) => {
   res.status(200).json({
     status: "success",
     message: "Profile fetched",
-    user,
+    id: user._id,
+    username: user.username,
+    email: user.email,
   });
 });
 
@@ -91,11 +93,9 @@ exports.updateProfile = asyncHandler(async (req, res) => {
   res.status(200).json({
     status: "success",
     message: "Profile updated successfully",
-    user: {
-      id: user._id,
-      username: user.username,
-      email: user.email,
-    },
+    id: user._id,
+    username: user.username,
+    email: user.email,
   });
 });
 

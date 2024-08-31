@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
+  id: string | null;
   email: string | null;
   username: string | null;
   token: string | null;
@@ -9,6 +10,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
+  id: null,
   email: null,
   username: null,
   token: null,
@@ -30,8 +32,14 @@ const userSlice = createSlice({
     },
     loginSuccess(
       state,
-      action: PayloadAction<{ email: string; username: string; token: string }>
+      action: PayloadAction<{
+        email: string;
+        username: string;
+        token: string;
+        id: string;
+      }>
     ) {
+      state.id = action.payload.id;
       state.loading = false;
       state.email = action.payload.email;
       state.username = action.payload.username;
@@ -55,12 +63,12 @@ const userSlice = createSlice({
     },
     registerSuccess(
       state,
-      action: PayloadAction<{ email: string; username: string; token: string }>
+      action: PayloadAction<{ email: string; username: string; id: string }>
     ) {
+      state.id = action.payload.id;
       state.loading = false;
       state.email = action.payload.email;
       state.username = action.payload.username;
-      state.token = action.payload.token;
     },
     registerFailure(state, action: PayloadAction<string>) {
       state.loading = false;
