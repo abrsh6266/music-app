@@ -128,7 +128,7 @@ const Navbar: React.FC = () => {
           <Link to={"/"}>Home</Link>
         </NavLink>
         <NavLink>
-          <Link to={"/playlists"}>My playlists</Link>
+          <Link to={"/my-playlists"}>My playlists</Link>
         </NavLink>
         <NavLink>
           <Link to={"/genres"}>Genre</Link>

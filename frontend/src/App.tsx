@@ -10,6 +10,8 @@ import GenresPage from "./pages/GenresPage";
 import GenreMusicPage from "./pages/GenreMusicPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import errorMsg from "./components/Alerts/ErrorMsg";
 
 const Container = styled("div")`
   margin-top: 100px;
@@ -25,10 +27,17 @@ function App() {
               <Route element={<MusicPage />} path="/" />
               <Route element={<CreateMusic />} path="/add-music" />
               <Route element={<GenresPage />} path="/genres" />
-              <Route path="/genres/:genre" element={<GenreMusicPage />} />
+              <Route
+                path="/my-playlists"
+                element={
+                  <ProtectedRoute>
+                    <div>hello</div>
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-
+              <Route path="/register" element={<RegisterPage />} />
             </Routes>
           </Container>
         </div>
