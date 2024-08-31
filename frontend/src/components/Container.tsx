@@ -18,8 +18,8 @@ export const MusicPlayerContainer = styled(Box)`
   margin: 10px auto; /* Slightly more margin for spacing */
   border-radius: 16px; /* Slightly larger radius for a softer look */
   box-shadow: 0 25px 25px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) => theme.colors.background};
-  max-width: 1400px; /* Increased max-width for a larger container */
+  background-color: ${({ theme }:any) => theme.colors.background};
+  max-width: 1200px; /* Increased max-width for a larger container */
   width: 90%; /* Ensure it scales well on different screen sizes */
   min-height: 600px; /* Set a minimum height to make it more prominent */
 
