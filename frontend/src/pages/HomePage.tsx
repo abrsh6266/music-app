@@ -6,11 +6,11 @@ import { fetchMusicsRequest } from "../features/music/musicSlice";
 import MusicPlayer from "../components/MusicPlayerComponents/MusicPlayer";
 import { MusicPlayerContainer } from "../components/Container";
 import styled from "@emotion/styled";
+import LoadingComponent from "../components/Alerts/LoadingComponent";
 
-const Cont = styled('div')`
-    margin-left:30px;
-
-`
+const Cont = styled("div")`
+  margin-left: 30px;
+`;
 // Styled component for Add Music Button
 const AddMusicButton = styled.button`
   padding: 0.5em 1em;
@@ -45,11 +45,10 @@ const MusicPage: React.FC = () => {
 
   return (
     <MusicPlayerContainer>
-      {/* Add Music Button */}
       <Cont>
         <AddMusicButton onClick={handleAddMusicClick}>Add Music</AddMusicButton>
       </Cont>
-      {loading && <p>Loading...</p>}
+      {loading && <LoadingComponent />}
       {error && <p>Error: {error}</p>}
       {!loading && !error && <MusicPlayer music={musics} />}
     </MusicPlayerContainer>
