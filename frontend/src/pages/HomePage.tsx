@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { fetchMusicsRequest } from "../features/music/musicSlice";
 import MusicPlayer from "../components/MusicPlayerComponents/MusicPlayer";
-import Box from "../components/Box";
+import { MusicPlayerContainer } from "../components/Container";
 
 const MusicPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -16,11 +16,11 @@ const MusicPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <Box>
+    <MusicPlayerContainer>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       {!loading && !error && <MusicPlayer music={musics} />}
-    </Box>
+    </MusicPlayerContainer>
   );
 };
 

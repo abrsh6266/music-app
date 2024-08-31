@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 const VolumeControlWrapper = styled.input`
   width: 100px;
-  margin-left: ${({ theme }) => theme.space[3]}px;
+  margin-left: ${({ theme }:any) => theme.space[3]}px;
 `;
 
 interface VolumeControlProps {

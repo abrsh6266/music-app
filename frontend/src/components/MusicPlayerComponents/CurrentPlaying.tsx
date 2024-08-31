@@ -4,18 +4,18 @@ import { Box } from 'rebass';
 
 const CurrentPlayingWrapper = styled(Box)`
   display: flex;
-  margin: ${({ theme }) => theme.space[4]}px;
+  margin: ${({ theme }:any) => theme.space[4]}px;
 `;
 
 const SpotifyIcon = styled.svg`
   width: 50px;
   height: 50px;
-  margin-right: ${({ theme }) => theme.space[3]}px;
+  margin-right: ${({ theme }:any) => theme.space[3]}px;
 `;
 
 const Heading = styled(Box)`
-  color: ${({ theme }) => theme.colors.text};
-  font-size: ${({ theme }) => theme.fontSizes[4]}px;
+  color: ${({ theme }:any) => theme.colors.text};
+  font-size: ${({ theme }:any) => theme.fontSizes[4]}px;
   font-weight: bold;
   align-self: center;
 `;

@@ -6,19 +6,19 @@ const Controls = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: ${({ theme }) => theme.space[3]}px;
+  margin-top: ${({ theme }:any) => theme.space[3]}px;
 `;
 
 const ControlButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  margin: 0 ${({ theme }) => theme.space[2]}px;
-  font-size: ${({ theme }) => theme.fontSizes[4]}px;
-  color: ${({ theme }) => theme.colors.text};
+  margin: 0 ${({ theme }:any) => theme.space[2]}px;
+  font-size: ${({ theme }:any) => theme.fontSizes[4]}px;
+  color: ${({ theme }:any) => theme.colors.text};
 
   &:hover {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }:any) => theme.colors.primary};
   }
 `;
 

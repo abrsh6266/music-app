@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 const ProgressBarWrapper = styled.input`
   width: 100%;
-  margin: ${({ theme }) => theme.space[3]}px 0;
+  margin: ${({ theme }:any) => theme.space[3]}px 0;
 `;
 
 interface ProgressBarProps {

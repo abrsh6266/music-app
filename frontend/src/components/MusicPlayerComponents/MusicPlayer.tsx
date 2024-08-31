@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { Box } from 'rebass';
-import MusicList from './MusicList';
-import PlayerControls from './PlayerControls';
-import ProgressBar from './ProgressBar';
-import VolumeControl from './VolumeControl';
+import React, { useState, useRef, useEffect } from "react";
+import styled from "@emotion/styled";
+import { Box } from "rebass";
+import MusicList from "./MusicList";
+import PlayerControls from "./PlayerControls";
+import ProgressBar from "./ProgressBar";
+import VolumeControl from "./VolumeControl";
 
 interface Music {
   title: string;
@@ -18,11 +18,11 @@ interface MusicPlayerProps {
 }
 
 const Main = styled(Box)`
-  background-color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.space[4]}px;
-  padding-bottom: ${({ theme }) => theme.space[5]}px;
-  border-radius: ${({ theme }) => theme.radii.large};
-  margin: ${({ theme }) => theme.space[4]}px;
+  background-color: ${({ theme }: any) => theme.colors.white};
+  padding: ${({ theme }: any) => theme.space[4]}px;
+  padding-bottom: ${({ theme }: any) => theme.space[5]}px;
+  border-radius: ${({ theme }: any) => theme.radii.large};
+  margin: ${({ theme }: any) => theme.space[4]}px;
 `;
 
 const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
@@ -53,7 +53,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
 
   const handleNextTrack = () => {
     if (currentTrack) {
-      const currentIndex = music.findIndex(track => track.file === currentTrack.file);
+      const currentIndex = music.findIndex(
+        (track) => track.file === currentTrack.file
+      );
       const nextTrack = music[(currentIndex + 1) % music.length];
       handlePlayPause(nextTrack);
     }
@@ -61,7 +63,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
 
   const handlePreviousTrack = () => {
     if (currentTrack) {
-      const currentIndex = music.findIndex(track => track.file === currentTrack.file);
+      const currentIndex = music.findIndex(
+        (track) => track.file === currentTrack.file
+      );
       const prevTrack = music[(currentIndex - 1 + music.length) % music.length];
       handlePlayPause(prevTrack);
     }
@@ -96,7 +100,18 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
 
   return (
     <Main>
-      <MusicList music={music} currentTrack={currentTrack} isPlaying={isPlaying} handlePlayPause={handlePlayPause} />
+      <MusicList
+        music={music}
+        currentTrack={currentTrack}
+        isPlaying={isPlaying}
+        handlePlayPause={handlePlayPause}
+        handleEdit={function (track: Music): void {
+          throw new Error("Function not implemented.");
+        }}
+        handleDelete={function (track: Music): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
 
       {currentTrack && (
         <>
@@ -115,7 +130,11 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
         </>
       )}
 
-      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} onEnded={handleNextTrack} />
+      <audio
+        ref={audioRef}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={handleNextTrack}
+      />
     </Main>
   );
 };
