@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
     (state: RootState) => state.user
   );
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "abrsh6266@gmail.com", password: "123456" });
   const [errors, setErrors] = useState({ email: "", password: "" });
 
   useEffect(() => {

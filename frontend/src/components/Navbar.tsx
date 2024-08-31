@@ -3,8 +3,10 @@ import styled from "@emotion/styled";
 import { Box } from "rebass";
 import { FaSearch, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { fetchMusicsRequest } from "../features/music/musicSlice"; // Import action for fetching musics
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMusicsRequest } from "../features/music/musicSlice";
+import { RootState } from "../store"; // Import RootState for typing
+import { logout } from "../features/user/userSlice"; // Import logout action
 
 // Styled components for Navbar
 const NavbarContainer = styled(Box)`
@@ -89,33 +91,66 @@ const UserControls = styled(Box)`
   display: flex;
   align-items: center;
   gap: 1.5em;
+  position: relative;
+`;
+
+const ProfileDropdown = styled(Box)`
+width: 150px;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: ${({ theme }: any) => theme.colors.white};
+  border-radius: ${({ theme }: any) => theme.radii.small};
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 100;
+`;
+
+const DropdownItem = styled(Box)`
+  padding: 0.5em 1em;
+  font-size: 1em;
+  color: ${({ theme }: any) => theme.colors.text};
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }: any) => theme.colors.lightGray};
+  }
 `;
 
 // Navbar Component
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
-  const dispatch = useDispatch(); // Use dispatch from redux
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const { token } = useSelector((state: RootState) => state.user);
 
   const toggleNav = () => {
     setIsNavOpen((prev) => !prev);
   };
 
-  // Effect to trigger search when searchQuery changes
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      dispatch(fetchMusicsRequest({ search: searchQuery })); // Dispatch the action with search query
-    }, 500); // 500ms debounce time
+      dispatch(fetchMusicsRequest({ search: searchQuery }));
+    }, 500);
 
-    return () => clearTimeout(delayDebounceFn); // Cleanup debounce timeout
+    return () => clearTimeout(delayDebounceFn);
   }, [searchQuery, dispatch]);
 
   return (
     <NavbarContainer>
       {/* Logo */}
-      <Logo>AB Musics</Logo>
+      <Logo onClick={() => navigate("/")}>AB Musics</Logo>
 
       {/* Hamburger Menu for Mobile */}
       <HamburgerMenu onClick={toggleNav}>
@@ -142,7 +177,7 @@ const Navbar: React.FC = () => {
           placeholder="Search..."
           value={searchQuery}
           onChange={(e) => {
-            if (location.pathname != "/") {
+            if (location.pathname !== "/") {
               navigate("/");
             }
             setSearchQuery(e.target.value);
@@ -152,7 +187,28 @@ const Navbar: React.FC = () => {
 
       {/* User Controls */}
       <UserControls>
-        <FaUserCircle size="1.5em" />
+        {token ? (
+          <>
+            <FaUserCircle size="1.5em" onClick={toggleDropdown} />
+            {isDropdownOpen && (
+              <ProfileDropdown>
+                <DropdownItem onClick={() => navigate("/profile")}>
+                  My Profile
+                </DropdownItem>
+                <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
+              </ProfileDropdown>
+            )}
+          </>
+        ) : (
+          <>
+            <NavLink>
+              <Link to={"/login"}>Login</Link>
+            </NavLink>
+            <NavLink>
+              <Link to={"/register"}>Register</Link>
+            </NavLink>
+          </>
+        )}
       </UserControls>
     </NavbarContainer>
   );
