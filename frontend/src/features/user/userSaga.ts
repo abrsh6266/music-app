@@ -47,8 +47,10 @@ function* handleRegister(action: ReturnType<typeof registerRequest>) {
       "http://localhost:4000/api/v1/users/register",
       action.payload
     );
+    successMsg("User successfully registered");
     yield put(registerSuccess(response.data));
   } catch (error: any) {
+    errorMsg(error.response?.data?.message || "registering failed");
     yield put(
       registerFailure(error.response?.data?.message || "Registration failed")
     );

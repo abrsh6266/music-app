@@ -13,6 +13,12 @@ import { FetchMusicsResponse, Music } from "../../utils";
 import { PayloadAction } from "@reduxjs/toolkit";
 import successMsg from "../../components/Alerts/SuccessMsg";
 import errorMsg from "../../components/Alerts/ErrorMsg";
+import { clearUserDataFromLocalStorage } from "../../utils/localStorage";
+
+const handleLogout = () => {
+  clearUserDataFromLocalStorage();
+  window.location.reload();
+};
 
 // Fetch Musics Saga
 function* fetchMusicsSaga(
@@ -58,8 +64,11 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
     successMsg("Music successfully added to your playlist");
     yield put(createMusicSuccess(response.data));
   } catch (error: any) {
-    errorMsg(error.message);
-    yield put(createMusicFailure(error.message));
+    errorMsg(error?.response?.data?.message);
+    if (error?.response?.data?.message === "Expired/Invalid Token") {
+      handleLogout();
+    }
+    yield put(createMusicFailure(error?.response?.data?.message));
   }
 }
 

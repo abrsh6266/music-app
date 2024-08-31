@@ -1,4 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  saveUserDataToLocalStorage,
+  getUserDataFromLocalStorage,
+  clearUserDataFromLocalStorage,
+} from "../../utils/localStorage"; // Adjust the import path as needed
 
 interface UserState {
   id: string | null;
@@ -9,7 +14,8 @@ interface UserState {
   error: string | null;
 }
 
-const initialState: UserState = {
+// Initialize state with data from localStorage if available
+const initialState: UserState = getUserDataFromLocalStorage() || {
   id: null,
   email: null,
   username: null,
@@ -26,7 +32,7 @@ const userSlice = createSlice({
       state,
       action: PayloadAction<{ email: string; password: string }>
     ) {
-      console.log(action.payload);
+      console.log(action);
       state.loading = true;
       state.error = null;
     },
@@ -39,11 +45,15 @@ const userSlice = createSlice({
         id: string;
       }>
     ) {
+      console.log(action);
       state.id = action.payload.id;
       state.loading = false;
       state.email = action.payload.email;
       state.username = action.payload.username;
       state.token = action.payload.token;
+
+      // Save user data to localStorage
+      saveUserDataToLocalStorage(action.payload);
     },
     loginFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -57,7 +67,7 @@ const userSlice = createSlice({
         password: string;
       }>
     ) {
-      console.log(action.payload);
+      console.log(action);
       state.loading = true;
       state.error = null;
     },
@@ -75,9 +85,13 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     logout(state) {
+      state.id = null;
       state.email = null;
       state.username = null;
       state.token = null;
+
+      // Clear user data from localStorage
+      clearUserDataFromLocalStorage();
     },
   },
 });
