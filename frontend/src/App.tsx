@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import GenresPage from "./pages/GenresPage";
 import GenreMusicPage from "./pages/GenreMusicPage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const Container = styled("div")`
   margin-top: 100px;
@@ -26,6 +27,8 @@ function App() {
               <Route element={<GenresPage />} path="/genres" />
               <Route path="/genres/:genre" element={<GenreMusicPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+
             </Routes>
           </Container>
         </div>

@@ -19,7 +19,6 @@ interface LoginResponse {
 }
 
 interface RegisterResponse {
-  id: string;
   email: string;
   username: string;
   token: string;

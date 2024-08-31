@@ -73,9 +73,8 @@ const userSlice = createSlice({
     },
     registerSuccess(
       state,
-      action: PayloadAction<{ email: string; username: string; id: string }>
+      action: PayloadAction<{ email: string; username: string }>
     ) {
-      state.id = action.payload.id;
       state.loading = false;
       state.email = action.payload.email;
       state.username = action.payload.username;
