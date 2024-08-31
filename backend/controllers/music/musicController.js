@@ -17,6 +17,7 @@ exports.createMusic = asyncHandler(async (req, res) => {
     genre,
     album: album ? album : "Unknown",
     artist,
+    userId: req.user._id,
     file: req?.file?.path,
   });
 

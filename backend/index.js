@@ -7,6 +7,7 @@ const {
 } = require("./middlewares/globalErrorHandler");
 const cors = require("cors");
 const musicRouter = require("./routes/music/musicRoute");
+const userRouter = require("./routes/user/userRoutes");
 
 //server
 const app = express();
@@ -22,6 +23,7 @@ connectDB();
 
 //Routes
 app.use("/api/v1/musics", musicRouter);
+app.use("/api/v1/users", userRouter);
 
 //not found middleware(404)
 app.use(notFound);

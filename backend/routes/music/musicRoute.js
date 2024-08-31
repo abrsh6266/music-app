@@ -8,10 +8,11 @@ const {
   deleteMusic,
   updateMusic,
 } = require("../../controllers/music/musicController");
+const isLoggedIn = require("../../middlewares/isLogged");
 const musicRouter = express.Router();
 
 // create
-musicRouter.post("/", upload.single("file"), createMusic);
+musicRouter.post("/", isLoggedIn, upload.single("file"), createMusic);
 
 //* get musics
 musicRouter.get("/", getMusics);
