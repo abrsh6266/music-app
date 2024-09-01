@@ -35,18 +35,20 @@ function* fetchMusicsSaga(
     const { search } = action.payload;
 
     // Fetch page and limit from Redux state
-    const limit = yield select((state: RootState) => state.music.limit);
-    const page = yield select((state: RootState) => state.music.currentPage);
+    const limit = (yield select((state: RootState) => state.music.limit)) as number;
+    const page = (yield select((state: RootState) => state.music.currentPage)) as number;
 
     let params = { search, page, limit };
     if (search) {
       params = { search, page: 1, limit: 15 };
     }
-    const response: AxiosResponse<FetchMusicsResponse> = yield call(
+
+    const response = (yield call(
       axios.get,
       "https://music-app-api-cyan.vercel.app/api/v1/musics",
       { params }
-    );
+    )) as AxiosResponse<FetchMusicsResponse>;
+
     console.log(response.data);
     yield put(
       fetchMusicsSuccess({
@@ -65,7 +67,7 @@ function* fetchMusicsSaga(
 function* createMusicSaga(action: PayloadAction<Music>): Generator {
   try {
     // Select the token from the Redux state
-    const token: string = yield select((state: RootState) => state.user.token);
+    const token = (yield select((state: RootState) => state.user.token)) as string;
 
     const formData = new FormData();
     formData.append("title", action.payload.title);
@@ -76,7 +78,7 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
       formData.append("file", action.payload.file);
     }
 
-    const response: AxiosResponse<Music> = yield call(
+    const response = (yield call(
       axios.post,
       "https://music-app-api-cyan.vercel.app/api/v1/musics",
       formData,
@@ -85,7 +87,7 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
           Authorization: `Bearer ${token}`,
         },
       }
-    );
+    )) as AxiosResponse<Music>;
 
     successMsg("Music successfully added to your playlist");
     yield put(createMusicSuccess(response.data));
@@ -103,7 +105,7 @@ function* updateMusicSaga(
   action: PayloadAction<{ id: string; data: Partial<Music> }>
 ): Generator {
   try {
-    const token: string = yield select((state: RootState) => state.user.token);
+    const token = (yield select((state: RootState) => state.user.token)) as string;
     const { id, data } = action.payload;
 
     const formData = new FormData();
@@ -115,7 +117,7 @@ function* updateMusicSaga(
       formData.append("file", data.file);
     }
 
-    const response: AxiosResponse<Music> = yield call(
+    const response = (yield call(
       axios.put,
       `https://music-app-api-cyan.vercel.app/api/v1/musics/${id}`,
       formData,
@@ -124,7 +126,7 @@ function* updateMusicSaga(
           Authorization: `Bearer ${token}`,
         },
       }
-    );
+    )) as AxiosResponse<Music>;
 
     successMsg("Music successfully updated");
     yield put(updateMusicSuccess(response.data));
@@ -140,7 +142,7 @@ function* updateMusicSaga(
 // Delete Music Saga
 function* deleteMusicSaga(action: PayloadAction<string>): Generator {
   try {
-    const token: string = yield select((state: RootState) => state.user.token);
+    const token = (yield select((state: RootState) => state.user.token)) as string;
 
     yield call(
       axios.delete,
