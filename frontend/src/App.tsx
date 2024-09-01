@@ -13,6 +13,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UpdateMusic from "./pages/UpdateMusic";
 import MyPlayListPage from "./pages/MyPlaylists";
+import ProfilePage from "./pages/ProfilePage";
 
 const Container = styled("div")`
   margin-top: 100px;
@@ -29,6 +30,14 @@ function App() {
               <Route element={<GenresPage />} path="/genres" />
               <Route element={<GenreMusicPage />} path="/genres/:genre" />
 
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/update-music/:id"
                 element={
