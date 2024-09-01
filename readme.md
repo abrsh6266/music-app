@@ -145,7 +145,7 @@ music-app/
 │   ├── routes/
 │   ├── utils/
 │   ├── .env
-│   ├── server.js
+│   ├── index.js
 │   └── ...
 ├── frontend/
 │   ├── src/

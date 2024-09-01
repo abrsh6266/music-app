@@ -35,18 +35,16 @@ function* fetchMusicsSaga(
     const { search } = action.payload;
 
     // Fetch page and limit from Redux state
-    const { page, limit } = yield select((state: RootState) => ({
-      page: state.music.currentPage,
-      limit: state.music.limit,
-    }));
-    console.log("currentPage :", page);
+    const limit = yield select((state: RootState) => state.music.limit);
+    const page = yield select((state: RootState) => state.music.currentPage);
+
     let params = { search, page, limit };
     if (search) {
       params = { search, page: 1, limit: 15 };
     }
     const response: AxiosResponse<FetchMusicsResponse> = yield call(
       axios.get,
-      "http://localhost:4000/api/v1/musics",
+      "https://music-app-api-cyan.vercel.app/api/v1/musics",
       { params }
     );
     console.log(response.data);
@@ -80,7 +78,7 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
 
     const response: AxiosResponse<Music> = yield call(
       axios.post,
-      "http://localhost:4000/api/v1/musics",
+      "https://music-app-api-cyan.vercel.app/api/v1/musics",
       formData,
       {
         headers: {
@@ -119,7 +117,7 @@ function* updateMusicSaga(
 
     const response: AxiosResponse<Music> = yield call(
       axios.put,
-      `http://localhost:4000/api/v1/musics/${id}`,
+      `https://music-app-api-cyan.vercel.app/api/v1/musics/${id}`,
       formData,
       {
         headers: {
@@ -146,7 +144,7 @@ function* deleteMusicSaga(action: PayloadAction<string>): Generator {
 
     yield call(
       axios.delete,
-      `http://localhost:4000/api/v1/musics/${action.payload}`,
+      `https://music-app-api-cyan.vercel.app/api/v1/musics/${action.payload}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

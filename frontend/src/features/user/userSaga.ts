@@ -38,7 +38,7 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
   try {
     const response: AxiosResponse<LoginResponse> = yield call(
       axios.post,
-      "http://localhost:4000/api/v1/users/login",
+      "https://music-app-api-cyan.vercel.app/api/v1/users/login",
       action.payload
     );
     successMsg("User successfully logged in");
@@ -53,7 +53,7 @@ function* handleRegister(action: ReturnType<typeof registerRequest>) {
   try {
     const response: AxiosResponse<RegisterResponse> = yield call(
       axios.post,
-      "http://localhost:4000/api/v1/users/register",
+      "https://music-app-api-cyan.vercel.app/api/v1/users/register",
       action.payload
     );
     successMsg("User successfully registered");
@@ -71,7 +71,7 @@ function* handleFetchProfile() {
     const token: string = yield select((state: any) => state.user.token);
     const response: AxiosResponse<LoginResponse> = yield call(
       axios.get,
-      "http://localhost:4000/api/v1/users/profile",
+      "https://music-app-api-cyan.vercel.app/api/v1/users/profile",
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -98,7 +98,7 @@ function* handleUpdateProfile(action: ReturnType<typeof updateProfileRequest>) {
     const token: string = yield select((state: any) => state.user.token);
     const response: AxiosResponse<LoginResponse> = yield call(
       axios.put,
-      "http://localhost:4000/api/v1/users/profile",
+      "https://music-app-api-cyan.vercel.app/api/v1/users/profile",
       action.payload,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -119,7 +119,7 @@ function* handleUpdateProfile(action: ReturnType<typeof updateProfileRequest>) {
 function* handleDeleteProfile() {
   try {
     const token: string = yield select((state: any) => state.user.token);
-    yield call(axios.delete, "http://localhost:4000/api/v1/users/profile", {
+    yield call(axios.delete, "https://music-app-api-cyan.vercel.app/api/v1/users/profile", {
       headers: { Authorization: `Bearer ${token}` },
     });
     successMsg("Profile successfully deleted");
