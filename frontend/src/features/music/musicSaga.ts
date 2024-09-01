@@ -37,9 +37,9 @@ function* fetchMusicsSaga(
       "http://localhost:4000/api/v1/musics",
       { params }
     );
-    console.log(response.data);
     yield put(fetchMusicsSuccess(response.data.musics));
   } catch (error: any) {
+    console.log(error.response);
     errorMsg(error.message);
     yield put(fetchMusicsFailure(error.message));
   }

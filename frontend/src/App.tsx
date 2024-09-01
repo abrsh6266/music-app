@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UpdateMusic from "./pages/UpdateMusic";
+import MyPlayListPage from "./pages/MyPlaylists";
 
 const Container = styled("div")`
   margin-top: 100px;
@@ -40,7 +41,7 @@ function App() {
                 path="/my-playlists"
                 element={
                   <ProtectedRoute>
-                    <div>hello</div>
+                    <MyPlayListPage />
                   </ProtectedRoute>
                 }
               />

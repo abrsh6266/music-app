@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Music = require("../../model/Music/Music");
+const { mongo, default: mongoose } = require("mongoose");
 
 //create musics
 exports.createMusic = asyncHandler(async (req, res) => {
@@ -43,8 +44,12 @@ exports.getMusics = asyncHandler(async (req, res) => {
         { artist: searchRegex },
         { album: searchRegex },
         { genre: searchRegex },
-        { userId: searchRegex },
       ],
+    };
+  }
+  if (mongoose.isValidObjectId(search)) {
+    query = {
+      $or: [{ userId: search }],
     };
   }
 
