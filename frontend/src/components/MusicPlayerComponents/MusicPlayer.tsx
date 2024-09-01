@@ -11,6 +11,7 @@ import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { deleteMusicRequest } from "../../features/music/musicSlice";
 import confirmDelete from "../Alerts/ConfirmDelete";
+import Pagination from "../PaginationComponent";
 
 interface Music {
   id?: string;
@@ -130,7 +131,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
         handleDelete={handleDelete}
         userId={userId}
       />
-
+      <Pagination />
       {currentTrack && (
         <>
           <PlayerControls

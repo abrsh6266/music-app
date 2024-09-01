@@ -33,16 +33,31 @@ function* fetchMusicsSaga(
 ): Generator {
   try {
     const { search } = action.payload;
-    const params = { search };
 
+    // Fetch page and limit from Redux state
+    const { page, limit } = yield select((state: RootState) => ({
+      page: state.music.currentPage,
+      limit: state.music.limit,
+    }));
+    console.log("currentPage :", page);
+    let params = { search, page, limit };
+    if (search) {
+      params = { search, page: 1, limit: 15 };
+    }
     const response: AxiosResponse<FetchMusicsResponse> = yield call(
       axios.get,
       "http://localhost:4000/api/v1/musics",
       { params }
     );
-    yield put(fetchMusicsSuccess(response.data.musics));
+    console.log(response.data);
+    yield put(
+      fetchMusicsSuccess({
+        musics: response.data.musics,
+        currentPage: parseInt(response.data.currentPage.toString()),
+        totalPages: response.data.totalPages,
+      })
+    );
   } catch (error: any) {
-    console.log(error.response);
     errorMsg(error.message);
     yield put(fetchMusicsFailure(error.message));
   }

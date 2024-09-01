@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Box } from "rebass";
 import LoadingBars from "./LoadingBars";
-import { FaTimes } from "react-icons/fa";
+import { FaHamburger, FaTimes } from "react-icons/fa";
 
 // Styled components for various elements
 const Loader = styled(Box)<{ isActive: boolean }>`
@@ -83,12 +83,6 @@ const DropdownItem2 = styled(Box)`
   }
 `;
 
-const DropdownButton = styled(Box)`
-  margin-right: auto;
-  cursor: pointer;
-  padding: 1.2em;
-  font-size: 1.2em;
-`;
 
 // Types for props
 interface Music {
@@ -156,14 +150,12 @@ const MusicList: React.FC<MusicListProps> = ({
         >
           {userId === track.userId ? (
             <Cont>
-              <DropdownButton
+              <FaHamburger
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleDropdown(index);
                 }}
-              >
-                ⋮
-              </DropdownButton>
+              />
               <Dropdown show={!!dropdownVisible[index]}>
                 <DropdownItem onClick={() => handleEdit(track)}>
                   Edit
@@ -186,7 +178,9 @@ const MusicList: React.FC<MusicListProps> = ({
                 }}
               />
               <Dropdown show={!!dropdownVisible2[index]}>
-                <DropdownItem2>you are not allowed. you are not creator</DropdownItem2>
+                <DropdownItem2>
+                  you are not allowed. you are not creator
+                </DropdownItem2>
               </Dropdown>
             </Cont>
           )}

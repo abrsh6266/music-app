@@ -10,4 +10,6 @@ export interface Music {
 
 export interface FetchMusicsResponse {
   musics: Music[];
+  currentPage: number;
+  totalPages: number;
 }

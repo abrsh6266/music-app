@@ -5,12 +5,18 @@ interface MusicState {
   musics: Music[];
   loading: boolean;
   error: string | null;
+  currentPage: number;
+  totalPages: number;
+  limit: number;
 }
 
 const initialState: MusicState = {
   musics: [],
   loading: false,
   error: null,
+  currentPage: 1,
+  totalPages: 1,
+  limit: 6,
 };
 
 const musicSlice = createSlice({
@@ -23,9 +29,18 @@ const musicSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    fetchMusicsSuccess(state, action: PayloadAction<Music[]>) {
+    fetchMusicsSuccess(
+      state,
+      action: PayloadAction<{
+        musics: Music[];
+        currentPage: number;
+        totalPages: number;
+      }>
+    ) {
       state.loading = false;
-      state.musics = action.payload;
+      state.musics = action.payload.musics;
+      state.currentPage = action.payload.currentPage;
+      state.totalPages = action.payload.totalPages;
     },
     fetchMusicsFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -89,6 +104,14 @@ const musicSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // Pagination
+    setPagination(
+      state,
+      action: PayloadAction<{ page: number; limit: number }>
+    ) {
+      state.currentPage = action.payload.page;
+      state.limit = action.payload.limit;
+    },
   },
 });
 
@@ -105,6 +128,7 @@ export const {
   deleteMusicRequest,
   deleteMusicSuccess,
   deleteMusicFailure,
+  setPagination,
 } = musicSlice.actions;
 
 export default musicSlice.reducer;
