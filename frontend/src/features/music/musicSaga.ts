@@ -10,6 +10,9 @@ import {
   updateMusicSuccess,
   updateMusicFailure,
   updateMusicRequest,
+  deleteMusicSuccess,
+  deleteMusicFailure,
+  deleteMusicRequest,
 } from "./musicSlice";
 import { FetchMusicsResponse, Music } from "../../utils";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -66,7 +69,7 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
       formData,
       {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -81,6 +84,7 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
     yield put(createMusicFailure(error?.response?.data?.message));
   }
 }
+
 // Update Music Saga with Authorization Header
 function* updateMusicSaga(
   action: PayloadAction<{ id: string; data: Partial<Music> }>
@@ -120,9 +124,36 @@ function* updateMusicSaga(
   }
 }
 
+// Delete Music Saga
+function* deleteMusicSaga(action: PayloadAction<string>): Generator {
+  try {
+    const token: string = yield select((state: RootState) => state.user.token);
+
+    yield call(
+      axios.delete,
+      `http://localhost:4000/api/v1/musics/${action.payload}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    successMsg("Music successfully deleted");
+    yield put(deleteMusicSuccess(action.payload));
+  } catch (error: any) {
+    errorMsg(error?.response?.data?.message);
+    if (error?.response?.data?.message === "Expired/Invalid Token") {
+      handleLogout();
+    }
+    yield put(deleteMusicFailure(error?.response?.data?.message));
+  }
+}
+
 // Root Music Saga
 export default function* musicSaga() {
   yield takeLatest(fetchMusicsRequest.type, fetchMusicsSaga);
   yield takeLatest(createMusicRequest.type, createMusicSaga);
   yield takeLatest(updateMusicRequest.type, updateMusicSaga);
+  yield takeLatest(deleteMusicRequest.type, deleteMusicSaga);
 }

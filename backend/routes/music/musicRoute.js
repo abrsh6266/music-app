@@ -21,6 +21,6 @@ musicRouter.get("/", getMusics);
 musicRouter.put("/:id", upload.single("file"), updateMusic);
 
 //! Delete a music
-musicRouter.delete("/:id", deleteMusic);
+musicRouter.delete("/:id", isLoggedIn, deleteMusic);
 
 module.exports = musicRouter;

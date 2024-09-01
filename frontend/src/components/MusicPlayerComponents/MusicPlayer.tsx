@@ -8,6 +8,8 @@ import VolumeControl from "./VolumeControl";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { useDispatch } from "react-redux";
+import { deleteMusicRequest } from "../../features/music/musicSlice";
 
 interface Music {
   id?: string;
@@ -37,8 +39,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
   const [volume, setVolume] = useState(1);
   const audioRef = useRef<HTMLAudioElement>(null);
   const navigate = useNavigate();
-  const userId = useSelector((state: RootState) => state.user.id); // Get logged-in user ID
-
+  const userId = useSelector((state: RootState) => state.user.id);
+  const dispatch = useDispatch();
   const handlePlayPause = (track: Music) => {
     if (currentTrack?.file === track.file) {
       if (audioRef.current?.paused) {
@@ -104,8 +106,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
   };
 
   const handleDelete = (track: Music) => {
-    // Implement deletion logic here
-    console.log("Delete music:", track);
+    if (track.id) {
+      dispatch(deleteMusicRequest(track.id)); // Dispatch the delete request
+    }
   };
 
   useEffect(() => {
@@ -123,7 +126,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
         handlePlayPause={handlePlayPause}
         handleEdit={handleEdit}
         handleDelete={handleDelete}
-        userId={userId} // Pass the logged-in user's ID
+        userId={userId}
       />
 
       {currentTrack && (

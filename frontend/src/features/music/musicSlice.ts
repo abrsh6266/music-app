@@ -72,6 +72,23 @@ const musicSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // Deleting music
+    deleteMusicRequest(state, action: PayloadAction<string>) {
+      console.log(action.payload);
+      state.loading = true;
+      state.error = null;
+    },
+    deleteMusicSuccess(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = null;
+      state.musics = state.musics.filter(
+        (music) => music.id !== action.payload
+      ); // Remove the deleted music from the list
+    },
+    deleteMusicFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -85,6 +102,9 @@ export const {
   updateMusicRequest,
   updateMusicSuccess,
   updateMusicFailure,
+  deleteMusicRequest,
+  deleteMusicSuccess,
+  deleteMusicFailure,
 } = musicSlice.actions;
 
 export default musicSlice.reducer;
