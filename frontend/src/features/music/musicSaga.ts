@@ -35,8 +35,12 @@ function* fetchMusicsSaga(
     const { search } = action.payload;
 
     // Fetch page and limit from Redux state
-    const limit = (yield select((state: RootState) => state.music.limit)) as number;
-    const page = (yield select((state: RootState) => state.music.currentPage)) as number;
+    const limit = (yield select(
+      (state: RootState) => state.music.limit
+    )) as number;
+    const page = (yield select(
+      (state: RootState) => state.music.currentPage
+    )) as number;
 
     let params = { search, page, limit };
     if (search) {
@@ -67,7 +71,9 @@ function* fetchMusicsSaga(
 function* createMusicSaga(action: PayloadAction<Music>): Generator {
   try {
     // Select the token from the Redux state
-    const token = (yield select((state: RootState) => state.user.token)) as string;
+    const token = (yield select(
+      (state: RootState) => state.user.token
+    )) as string;
 
     const formData = new FormData();
     formData.append("title", action.payload.title);
@@ -105,7 +111,9 @@ function* updateMusicSaga(
   action: PayloadAction<{ id: string; data: Partial<Music> }>
 ): Generator {
   try {
-    const token = (yield select((state: RootState) => state.user.token)) as string;
+    const token = (yield select(
+      (state: RootState) => state.user.token
+    )) as string;
     const { id, data } = action.payload;
 
     const formData = new FormData();
@@ -142,7 +150,9 @@ function* updateMusicSaga(
 // Delete Music Saga
 function* deleteMusicSaga(action: PayloadAction<string>): Generator {
   try {
-    const token = (yield select((state: RootState) => state.user.token)) as string;
+    const token = (yield select(
+      (state: RootState) => state.user.token
+    )) as string;
 
     yield call(
       axios.delete,

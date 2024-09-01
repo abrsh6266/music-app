@@ -74,9 +74,8 @@ const userSlice = createSlice({
       state,
       action: PayloadAction<{ email: string; username: string }>
     ) {
+      console.log(action.payload);
       state.loading = false;
-      state.email = action.payload.email;
-      state.username = action.payload.username;
     },
     registerFailure(state, action: PayloadAction<string>) {
       state.loading = false;
