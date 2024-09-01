@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { deleteMusicRequest } from "../../features/music/musicSlice";
+import confirmDelete from "../Alerts/ConfirmDelete";
 
 interface Music {
   id?: string;
@@ -105,9 +106,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
     navigate(`/update-music/${track.id}`); // Navigate to the edit page
   };
 
-  const handleDelete = (track: Music) => {
-    if (track.id) {
-      dispatch(deleteMusicRequest(track.id)); // Dispatch the delete request
+  const handleDelete = async (track: Music) => {
+    const isConfirmed = await confirmDelete();
+    if (isConfirmed && track.id) {
+      dispatch(deleteMusicRequest(track.id));
     }
   };
 
