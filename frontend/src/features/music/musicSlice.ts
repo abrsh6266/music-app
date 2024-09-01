@@ -34,7 +34,7 @@ const musicSlice = createSlice({
 
     // Creating music
     createMusicRequest(state, action) {
-      console.log(action);
+      console.log(action.payload);
       state.loading = true;
       state.error = null;
     },
@@ -44,6 +44,31 @@ const musicSlice = createSlice({
       state.musics.push(action.payload); // Add the newly created music to the list
     },
     createMusicFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // Updating music
+    updateMusicRequest(
+      state,
+      action: PayloadAction<{ id: string; data: Partial<Music> }>
+    ) {
+      console.log(action.payload);
+
+      state.loading = true;
+      state.error = null;
+    },
+    updateMusicSuccess(state, action: PayloadAction<Music>) {
+      state.loading = false;
+      state.error = null;
+      const index = state.musics.findIndex(
+        (music) => music.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.musics[index] = action.payload; // Update the existing music
+      }
+    },
+    updateMusicFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
     },
@@ -57,6 +82,9 @@ export const {
   createMusicRequest,
   createMusicSuccess,
   createMusicFailure,
+  updateMusicRequest,
+  updateMusicSuccess,
+  updateMusicFailure,
 } = musicSlice.actions;
 
 export default musicSlice.reducer;

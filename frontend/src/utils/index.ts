@@ -5,6 +5,7 @@ export interface Music {
   album: string;
   genre: string;
   file: string;
+  userId: string;
 }
 
 export interface FetchMusicsResponse {

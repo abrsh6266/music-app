@@ -11,7 +11,7 @@ import GenreMusicPage from "./pages/GenreMusicPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import errorMsg from "./components/Alerts/ErrorMsg";
+import UpdateMusic from "./pages/UpdateMusic";
 
 const Container = styled("div")`
   margin-top: 100px;
@@ -25,13 +25,30 @@ function App() {
           <Container>
             <Routes>
               <Route element={<MusicPage />} path="/" />
-              <Route element={<CreateMusic />} path="/add-music" />
               <Route element={<GenresPage />} path="/genres" />
+              <Route element={<GenreMusicPage />} path="/genres/:genre" />
+
+              <Route
+                path="/update-music/:id"
+                element={
+                  <ProtectedRoute>
+                    <UpdateMusic />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/my-playlists"
                 element={
                   <ProtectedRoute>
                     <div>hello</div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/add-music"
+                element={
+                  <ProtectedRoute>
+                    <CreateMusic />
                   </ProtectedRoute>
                 }
               />

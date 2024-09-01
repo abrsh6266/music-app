@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }: any) => {
   const { token } = useSelector((state: RootState) => state?.user);
   const location = useLocation();
   if (!token) {
-    if (location.pathname === "/my-playlists") {
+    if (location.pathname === "/my-playlists"||location.pathname === "/add-music") {
       errorMsg("You have to login");
     }
     return <Navigate to={"/login"} />;

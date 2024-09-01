@@ -1,5 +1,5 @@
-import { call, put, takeLatest } from "redux-saga/effects";
-import axios from "axios";
+import { call, put, takeLatest, select } from "redux-saga/effects";
+import axios, { AxiosResponse } from "axios";
 import {
   fetchMusicsRequest,
   fetchMusicsSuccess,
@@ -7,14 +7,18 @@ import {
   createMusicSuccess,
   createMusicFailure,
   createMusicRequest,
+  updateMusicSuccess,
+  updateMusicFailure,
+  updateMusicRequest,
 } from "./musicSlice";
-import { AxiosResponse } from "axios";
 import { FetchMusicsResponse, Music } from "../../utils";
 import { PayloadAction } from "@reduxjs/toolkit";
 import successMsg from "../../components/Alerts/SuccessMsg";
 import errorMsg from "../../components/Alerts/ErrorMsg";
+import { RootState } from "../../store"; // Import RootState for typing
 import { clearUserDataFromLocalStorage } from "../../utils/localStorage";
 
+// Handle logout if token is invalid or expired
 const handleLogout = () => {
   clearUserDataFromLocalStorage();
   window.location.reload();
@@ -25,18 +29,15 @@ function* fetchMusicsSaga(
   action: PayloadAction<{ search?: string }>
 ): Generator {
   try {
-    // Get search query from action payload
     const { search } = action.payload;
-
-    // Define query params
     const params = { search };
 
     const response: AxiosResponse<FetchMusicsResponse> = yield call(
       axios.get,
       "http://localhost:4000/api/v1/musics",
-      { params } // Pass search query in params
+      { params }
     );
-
+    console.log(response.data);
     yield put(fetchMusicsSuccess(response.data.musics));
   } catch (error: any) {
     errorMsg(error.message);
@@ -44,9 +45,12 @@ function* fetchMusicsSaga(
   }
 }
 
-// Create Music Saga
+// Create Music Saga with Authorization Header
 function* createMusicSaga(action: PayloadAction<Music>): Generator {
   try {
+    // Select the token from the Redux state
+    const token: string = yield select((state: RootState) => state.user.token);
+
     const formData = new FormData();
     formData.append("title", action.payload.title);
     formData.append("artist", action.payload.artist);
@@ -59,8 +63,14 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
     const response: AxiosResponse<Music> = yield call(
       axios.post,
       "http://localhost:4000/api/v1/musics",
-      formData
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+      }
     );
+
     successMsg("Music successfully added to your playlist");
     yield put(createMusicSuccess(response.data));
   } catch (error: any) {
@@ -71,9 +81,48 @@ function* createMusicSaga(action: PayloadAction<Music>): Generator {
     yield put(createMusicFailure(error?.response?.data?.message));
   }
 }
+// Update Music Saga with Authorization Header
+function* updateMusicSaga(
+  action: PayloadAction<{ id: string; data: Partial<Music> }>
+): Generator {
+  try {
+    const token: string = yield select((state: RootState) => state.user.token);
+    const { id, data } = action.payload;
+
+    const formData = new FormData();
+    formData.append("title", data.title || "");
+    formData.append("artist", data.artist || "");
+    formData.append("album", data.album || "");
+    formData.append("genre", data.genre || "");
+    if (data.file) {
+      formData.append("file", data.file);
+    }
+
+    const response: AxiosResponse<Music> = yield call(
+      axios.put,
+      `http://localhost:4000/api/v1/musics/${id}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    successMsg("Music successfully updated");
+    yield put(updateMusicSuccess(response.data));
+  } catch (error: any) {
+    errorMsg(error?.response?.data?.message);
+    if (error?.response?.data?.message === "Expired/Invalid Token") {
+      handleLogout();
+    }
+    yield put(updateMusicFailure(error?.response?.data?.message));
+  }
+}
 
 // Root Music Saga
 export default function* musicSaga() {
   yield takeLatest(fetchMusicsRequest.type, fetchMusicsSaga);
   yield takeLatest(createMusicRequest.type, createMusicSaga);
+  yield takeLatest(updateMusicRequest.type, updateMusicSaga);
 }

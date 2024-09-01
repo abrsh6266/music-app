@@ -5,12 +5,17 @@ import MusicList from "./MusicList";
 import PlayerControls from "./PlayerControls";
 import ProgressBar from "./ProgressBar";
 import VolumeControl from "./VolumeControl";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface Music {
+  id?: string;
   title: string;
   artist: string;
   album: string;
   file: string;
+  userId: string;
 }
 
 interface MusicPlayerProps {
@@ -31,6 +36,8 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(1);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const navigate = useNavigate();
+  const userId = useSelector((state: RootState) => state.user.id); // Get logged-in user ID
 
   const handlePlayPause = (track: Music) => {
     if (currentTrack?.file === track.file) {
@@ -92,6 +99,15 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
     }
   };
 
+  const handleEdit = (track: Music) => {
+    navigate(`/update-music/${track.id}`); // Navigate to the edit page
+  };
+
+  const handleDelete = (track: Music) => {
+    // Implement deletion logic here
+    console.log("Delete music:", track);
+  };
+
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
@@ -105,12 +121,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ music }) => {
         currentTrack={currentTrack}
         isPlaying={isPlaying}
         handlePlayPause={handlePlayPause}
-        handleEdit={function (track: Music): void {
-          throw new Error("Function not implemented.");
-        }}
-        handleDelete={function (track: Music): void {
-          throw new Error("Function not implemented.");
-        }}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+        userId={userId} // Pass the logged-in user's ID
       />
 
       {currentTrack && (

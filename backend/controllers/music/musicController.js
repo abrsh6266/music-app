@@ -43,6 +43,7 @@ exports.getMusics = asyncHandler(async (req, res) => {
         { artist: searchRegex },
         { album: searchRegex },
         { genre: searchRegex },
+        { userId: searchRegex },
       ],
     };
   }

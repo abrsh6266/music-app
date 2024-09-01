@@ -51,6 +51,7 @@ const MusicPage: React.FC = () => {
       {loading && <LoadingComponent />}
       {error && <p>Error: {error}</p>}
       {!loading && !error && <MusicPlayer music={musics} />}
+      {!loading && !error && musics.length === 0 && <p>No music found</p>}
     </MusicPlayerContainer>
   );
 };
