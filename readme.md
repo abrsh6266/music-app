@@ -1,6 +1,6 @@
 # Music App
 
-A full-stack music application built with React, Redux, Redux-Saga, Emotion CSS, and Node.js. This app allows users to upload, play, and manage music tracks, with user authentication and authorization. The backend is powered by Express.js and MongoDB, and the frontend is styled using Emotion and Rebass.
+A full-stack music application built with React, Redux, Redux-Saga, Emotion CSS, and Node.js. This app allows users to upload, play, and manage music tracks, with user authentication and authorization. The backend is powered by Express.js and MongoDB, and the frontend is styled using Emotion, styled-systems,styled-components and Rebass.
 
 ## Table of Contents
 
